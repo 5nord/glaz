@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/5nord/glaz"
@@ -25,12 +26,23 @@ var (
 		RunE: out,
 	}
 
+	openCmd = &cobra.Command{
+		Use:  "open",
+		RunE: open,
+	}
+
 	file = os.ExpandEnv(fmt.Sprintf("$HOME/Documents/Arbeit/GLAZ/GLAZFormular_%d_deutsch.xlsx", time.Now().Year()))
 )
 
 func main() {
-	rootCmd.AddCommand(inCmd, outCmd)
+	rootCmd.AddCommand(inCmd, outCmd, openCmd)
 	rootCmd.Execute()
+}
+
+func open(cmd *cobra.Command, args []string) error {
+	proc := exec.Command("xdg-open", file)
+	proc.Start()
+	return nil
 }
 
 func state(cmd *cobra.Command, args []string) error {
