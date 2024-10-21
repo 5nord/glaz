@@ -6,7 +6,7 @@ It's very easy to install and use (assuming you use the same sheet as I and you 
 
 ```
 # install
-$ go get github.com/5nord/glaz/cmd/glaz
+$ go get github.com/5nord/glaz@latest
 
 # check-in
 $ glaz in
@@ -16,4 +16,7 @@ $ glaz out
 
 # get state
 $ glaz
+
+# open document
+$ glaz open
 ```

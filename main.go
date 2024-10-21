@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/5nord/glaz"
+	"github.com/5nord/glaz/internal/glaz"
 	"github.com/spf13/cobra"
 )
 
