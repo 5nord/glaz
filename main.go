@@ -48,10 +48,11 @@ func open(cmd *cobra.Command, args []string) error {
 func state(cmd *cobra.Command, args []string) error {
 	fmt.Printf("Opening %s\n", file)
 	sheet, err := glaz.OpenFile(file)
-	if err == nil {
-		fmt.Printf("[32;1m+ %s[0m\n", sheet.Today())
+	if err != nil {
+		return err
 	}
-	return err
+	fmt.Printf("[32;1m+ %s[0m\n", sheet.Today())
+	return nil
 }
 
 func in(cmd *cobra.Command, args []string) error {

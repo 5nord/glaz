@@ -34,13 +34,31 @@ type Day struct {
 func (d Day) String() string {
 	b := &bytes.Buffer{}
 	fmt.Fprintf(b, "work: %s - %s", d.Work.Begin.Format("15:04"), d.Work.End.Format("15:04"))
-	p := d.Pause.End.Sub(d.Pause.Begin)
-	if p > 0 {
-		fmt.Fprintf(b, ", pause: %s", p)
+
+	workBegin := d.Work.Begin
+	if workBegin.IsZero() {
+		workBegin = time.Now()
 	}
-	if l := d.Work.End.Sub(d.Work.Begin); l > 0 {
-		fmt.Fprintf(b, ", hours: %s", l-p)
+
+	workEnd := d.Work.End
+	if workEnd.IsZero() {
+		workEnd = time.Now()
 	}
+
+	worked := workEnd.Sub(workBegin)
+	if worked < 0 {
+		worked = 0
+	}
+
+	paused := d.Pause.End.Sub(d.Pause.Begin)
+	if paused > 0 {
+		fmt.Fprintf(b, ", paused: %.2gh", paused.Hours())
+		worked -= paused
+	}
+	if worked > 0 {
+		fmt.Fprintf(b, ", worked: %.2gh", worked.Hours())
+	}
+
 	return b.String()
 }
 
